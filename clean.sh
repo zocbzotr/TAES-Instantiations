@@ -1,0 +1,10 @@
+#! /bin/bash
+cd ./ZOCB
+rm ./ZOCB_Timing_p4
+cd -
+cd ./ZOTR
+rm ./ZOTR_Timing_p4
+cd -
+cd ./ThetaCB3
+rm ./ThetaCB3_Timing_p4
+cd -

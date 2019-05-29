@@ -83,12 +83,12 @@ void ThetaCB3_enc(
 
 	if (MRe == 0)
 	{
-		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN + 2);
+		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN | (2LL << 56LL));
 		AES_encrypt(Checksum, &Final, K128i, Tweak[0]);
 	} 
 	else
 	{
-		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN + 1);
+		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN | (1LL << 56LL));
 		AES_encrypt(allzero, &Pad, K128i, Tweak[0]);
 
 		M128i[0] = _mm_loadu_si128((__m128i *)(Mip));
@@ -99,7 +99,7 @@ void ThetaCB3_enc(
 		M128i[0] = _mm_xor_si128(M128i[0], Pad);
 		memcpy(Cip, MRep, MRe);
 
-		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN + 3);
+		Tweak[0] = _mm_set_epi64x(Nonce, MBlockN | (3LL << 56LL));
 		AES_encrypt(Checksum, &Final, K128i, Tweak[0]);
 	}
 
@@ -167,7 +167,7 @@ void Hash_enc(
 
 	if (ARe != 0)
 	{
-		Tweak[0] = _mm_set_epi64x(0x0LL, ABlockN + 1);
+		Tweak[0] = _mm_set_epi64x(0x0LL, ABlockN | (1LL << 56LL));
 		A128ip = (__m128i *)(Aip);
 		A128i[0] = _mm_loadu_si128(A128ip);
 		u8 * ARep = (u8 *)(A128i);
